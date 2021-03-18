@@ -15,7 +15,7 @@ const limiter = require('./config/rateLimitConfig');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { MONGODB_SERVER } = require('./config/index');
 
-const { PORT = 3010 } = process.env;
+const { PORT = 3000 } = process.env;
 
 // подключаемся к БД mongo
 mongoose.connect(MONGODB_SERVER, {
@@ -26,13 +26,13 @@ mongoose.connect(MONGODB_SERVER, {
 });
 
 // выводим в консоль, что мы подключились к БД mongo
-/* eslint-disable no-console */
-mongoose.connection.on('open', () => console.log('DB connected!'));
+// mongoose.connection.on('open', () => console.log('DB connected!'));
 
 app.use(helmet());
 
 // app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(cors());
 // подключаем логгер запросов(до обработчиков)
 app.use(requestLogger);
@@ -47,6 +47,4 @@ app.use(errorLogger);
 
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}`);
-});
+app.listen(PORT);

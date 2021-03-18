@@ -26,7 +26,7 @@ const createMovieValid = celebrate({
         'any.required': 'Обязательно для заполенния',
       }),
     description: Joi.string().min(1).max(300).required()
-      .pattern(new RegExp(/^[А-Яа-яёЁ0-9 \-:?()_=+[\]#№@!",.;]+$/i))
+      .pattern(new RegExp(/^[А-Яа-яёЁa-zA-Z0-9 \-:?()_=+[\]#№@!",.;]+$/i))
       .messages({
         'string.min': 'Минимум 1 символа в поле описание фильма',
         'string.max': 'Максимум 300 символов в поле описание фильма',

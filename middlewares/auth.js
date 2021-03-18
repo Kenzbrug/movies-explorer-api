@@ -1,12 +1,12 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const { JWT_SECRET } = require('../config');
-const { Forbidden } = require('../errors');
+const { Unauthorized } = require('../errors');
 
 const handleAuthError = () => {
-  throw new Forbidden('Необходима авторизация');
+  throw new Unauthorized('Необходима авторизация');
 };
-/* eslint-disable consistent-return */
+
 const auth = (req, res, next) => {
   // достаём авторизационный заголовок
   const { authorization } = req.headers;
@@ -24,7 +24,7 @@ const auth = (req, res, next) => {
     return handleAuthError();
   }
   req.user = payload; // записываем пейлоуд в объект запроса
-  next();
+  return next();
 };
 
 module.exports = auth;

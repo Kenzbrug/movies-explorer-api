@@ -47,7 +47,7 @@ const movieSchema = mongoose.Schema({
     required: true,
     validate: {
       validator(v) {
-        const regex = /^[А-Яа-яёЁ0-9 \-:?()_=+[\]#№@!",.;]+$/i;
+        const regex = /^[a-zA-ZА-Яа-яёЁ0-9 \-:?()_=+[\]#№@!",.;]+$/i;
         return regex.test(v);
       },
     },
@@ -57,7 +57,7 @@ const movieSchema = mongoose.Schema({
     required: true,
     validate: {
       validator: (v) => isUrl(v),
-      message: 'Неправильный формат почты',
+      message: 'Неправильный url картинки',
     },
   },
   trailer: {
@@ -65,7 +65,7 @@ const movieSchema = mongoose.Schema({
     required: true,
     validate: {
       validator: (v) => isUrl(v),
-      message: 'Неправильный формат почты',
+      message: 'Неправильный url трейлера',
     },
   },
   thumbnail: {
@@ -73,7 +73,7 @@ const movieSchema = mongoose.Schema({
     required: true,
     validate: {
       validator: (v) => isUrl(v),
-      message: 'Неправильный формат почты',
+      message: 'Неправильный url миниатрюры',
     },
   },
   owner: {

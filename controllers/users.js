@@ -15,7 +15,7 @@ const getProfile = (req, res, next) => {
       if (!user) {
         throw new NotFound('Нет пользователя с таким id');
       }
-      return res.status(200).send(user);
+      return res.send(user);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -41,9 +41,7 @@ const createUser = (req, res, next) => {
           password: hash,
           name,
         }))
-        /* eslint-disable no-shadow */
-        .then(({ _id, email }) => {
-        /* eslint-enable no-shadow */
+        .then(({ _id }) => {
           res.send({ _id, email });
         });
     })
@@ -74,15 +72,14 @@ const login = (req, res, next) => {
 
 // обновляем данные пользователя
 const updateUser = (req, res, next) => {
-  const { name, about } = req.body;
-  User.findByIdAndUpdate(req.user._id, { name, about }, {
+  const { email, name } = req.body;
+  User.findByIdAndUpdate(req.user._id, { email, name }, {
     new: true, // then получит на вход обнавленные данные
     runValidators: true, // валидация данных перед изменением
-    upsert: true, // если нет пользователя, то создать нового
   })
     .then((user) => {
       if (user) {
-        return res.status(200).send(user);
+        return res.send(user);
       }
       throw new NotFound('Пользователь не найден');
     })
