@@ -8,18 +8,9 @@ const profileEdit = celebrate({
         return value;
       }
       return helper.message('Неправильно введен email при регистрации');
-    })
-      .messages({
-        'any.required': 'Обязательно для заполенния поле email',
-      }),
-    name: Joi.string().required().min(2).max(30)
-      .pattern(new RegExp(/[А-Яа-яёЁ0-9A-Za-z -]+$/i))
-      .messages({
-        'string.min': 'Минимум 2 символа в поле имя',
-        'string.max': 'Максимум 30 символов в поле имя',
-        'any.required': 'Обязательно для заполенния поле name',
-      }),
-  }).unknown(true),
+    }),
+    name: Joi.string().required(),
+  }),
 });
 
 module.exports = { profileEdit };

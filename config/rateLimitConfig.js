@@ -1,8 +1,10 @@
 const rateLimit = require('express-rate-limit');
+const { RATE_LIMIT } = require('./errors');
 
 const limiterConfig = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 минут
-  max: 100, // ограничение подключения до 100 раз на каждое подключение с одного IP адреса
+  windowMs: 15 * 60 * 1000, // количество запросов за 15 минут
+  max: 100, // количество подключений с одного IP адреса за интервал времени
+  message: RATE_LIMIT,
 });
 
 module.exports = limiterConfig;

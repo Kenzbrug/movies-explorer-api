@@ -13,20 +13,10 @@ const errorHandler = require('./middlewares/errorHandler');
 
 const limiter = require('./config/rateLimitConfig');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const { MONGODB_SERVER } = require('./config/index');
-
-const { PORT = 3000 } = process.env;
+const { MONGODB_SERVER, MONGOOSE_CONFIG, PORT } = require('./config/index');
 
 // подключаемся к БД mongo
-mongoose.connect(MONGODB_SERVER, {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false,
-});
-
-// выводим в консоль, что мы подключились к БД mongo
-// mongoose.connection.on('open', () => console.log('DB connected!'));
+mongoose.connect(MONGODB_SERVER, MONGOOSE_CONFIG);
 
 app.use(helmet());
 

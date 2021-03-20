@@ -2,9 +2,10 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const { JWT_SECRET } = require('../config');
 const { Unauthorized } = require('../errors');
+const { NOT_AUTHORIZED } = require('../config/errors');
 
 const handleAuthError = () => {
-  throw new Unauthorized('Необходима авторизация');
+  throw new Unauthorized(NOT_AUTHORIZED);
 };
 
 const auth = (req, res, next) => {

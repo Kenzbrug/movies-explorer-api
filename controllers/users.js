@@ -5,6 +5,7 @@ const User = require('../models/user');
 const {
   NotFound, Conflict, Unauthorized, BadRequest,
 } = require('../errors');
+const { USER_NOT_FOUND, USED_EMAIL, BAD_REGISTRATION } = require('../config/errors');
 
 const { JWT_SECRET, JWT_TTL } = require('../config/index');
 
@@ -13,7 +14,7 @@ const getProfile = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
       if (!user) {
-        throw new NotFound('Нет пользователя с таким id');
+        throw new NotFound(USER_NOT_FOUND);
       }
       return res.send(user);
     })
@@ -33,7 +34,7 @@ const createUser = (req, res, next) => {
   User.findOne({ email })
     .then((user) => {
       if (user) {
-        throw new Conflict('Почта уже используется');
+        throw new Conflict(USED_EMAIL);
       }
       bcrypt.hash(password, 10)
         .then((hash) => User.create({
@@ -53,14 +54,14 @@ const login = (req, res, next) => {
   User.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        throw new Unauthorized('Неприравильный логин или пароль');
+        throw new Unauthorized(BAD_REGISTRATION);
       }
       return bcrypt.compare(password, user.password)
         .then((isValid) => {
           if (isValid) {
             return user;
           }
-          throw new Unauthorized('Неприравильный логин или пароль');
+          throw new Unauthorized(BAD_REGISTRATION);
         });
     })
     .then(({ _id }) => {
@@ -81,7 +82,7 @@ const updateUser = (req, res, next) => {
       if (user) {
         return res.send(user);
       }
-      throw new NotFound('Пользователь не найден');
+      throw new NotFound(USER_NOT_FOUND);
     })
     .catch(next);
 };
