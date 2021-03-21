@@ -79,16 +79,26 @@ const deleteMovie = (req, res, next) => {
     .then((movie) => {
       if (movie === null) {
         throw new NotFound(VIDEO_NOT_FOUND);
-      } else {
-        const stringMovie = movie.owner.toString();
-        if (stringMovie !== req.user._id) {
-          throw new Forbidden(FORBIDDEN_DELETE_MOVIE);
-        } else {
-          Movie.findByIdAndDelete(movie._id)
-            .then((data) => data);
-        }
+      } else if (movie.owner.toString() !== req.user._id) {
+        throw new Forbidden(FORBIDDEN_DELETE_MOVIE);
       }
-      res.send(movie);
+      Movie.findByIdAndDelete(movie._id)
+        .then((data) => data);
+      const newObjectMovie = {
+        _id: movie._id,
+        country: movie.country,
+        director: movie.director,
+        duration: movie.duration,
+        year: movie.year,
+        description: movie.description,
+        image: movie.image,
+        trailer: movie.trailer,
+        nameRU: movie.nameRU,
+        nameEN: movie.nameEN,
+        thumbnail: movie.thumbnail,
+        movieId: movie.movieId,
+      };
+      res.send(newObjectMovie);
     })
     .catch((err) => {
       if (err.name === 'CastError') {

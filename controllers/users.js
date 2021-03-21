@@ -5,7 +5,9 @@ const User = require('../models/user');
 const {
   NotFound, Conflict, Unauthorized, BadRequest,
 } = require('../errors');
-const { USER_NOT_FOUND, USED_EMAIL, BAD_REGISTRATION } = require('../config/errors');
+const {
+  USER_NOT_FOUND, USED_EMAIL, BAD_REGISTRATION, EMAIL_IS_BUSY,
+} = require('../config/errors');
 
 const { JWT_SECRET, JWT_TTL } = require('../config/index');
 
@@ -74,15 +76,21 @@ const login = (req, res, next) => {
 // обновляем данные пользователя
 const updateUser = (req, res, next) => {
   const { email, name } = req.body;
-  User.findByIdAndUpdate(req.user._id, { email, name }, {
-    new: true, // then получит на вход обнавленные данные
-    runValidators: true, // валидация данных перед изменением
-  })
+  User.findOne({ email })
     .then((user) => {
       if (user) {
-        return res.send(user);
+        throw new Conflict(EMAIL_IS_BUSY);
       }
-      throw new NotFound(USER_NOT_FOUND);
+      User.findByIdAndUpdate(req.user._id, { email, name }, {
+        new: true, // then получит на вход обнавленные данные
+        runValidators: true, // валидация данных перед изменением
+      })
+        .then((data) => {
+          if (data) {
+            return res.send(data);
+          }
+          throw new NotFound(USER_NOT_FOUND);
+        });
     })
     .catch(next);
 };

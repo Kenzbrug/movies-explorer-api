@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const isUrl = require('validator/lib/isURL');
+const { BAD_URL_IMAGE, BAD_URL_TRAILER, BAD_URL_THUMBNAIL } = require('../config/errors');
 
 const movieSchema = mongoose.Schema({
   country: {
@@ -27,7 +28,7 @@ const movieSchema = mongoose.Schema({
     required: true,
     validate: {
       validator: (v) => isUrl(v),
-      message: 'Неправильный url картинки',
+      message: BAD_URL_IMAGE,
     },
   },
   trailer: {
@@ -35,7 +36,7 @@ const movieSchema = mongoose.Schema({
     required: true,
     validate: {
       validator: (v) => isUrl(v),
-      message: 'Неправильный url трейлера',
+      message: BAD_URL_TRAILER,
     },
   },
   thumbnail: {
@@ -43,7 +44,7 @@ const movieSchema = mongoose.Schema({
     required: true,
     validate: {
       validator: (v) => isUrl(v),
-      message: 'Неправильный url миниатрюры',
+      message: BAD_URL_THUMBNAIL,
     },
   },
   owner: {

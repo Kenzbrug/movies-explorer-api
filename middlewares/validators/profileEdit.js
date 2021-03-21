@@ -9,7 +9,7 @@ const profileEdit = celebrate({
       }
       return helper.message('Неправильно введен email при регистрации');
     }),
-    name: Joi.string().required(),
+    name: Joi.string().required().min(2).max(30),
   }),
 });
 

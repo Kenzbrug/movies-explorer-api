@@ -11,4 +11,9 @@ module.exports = {
   NOT_AUTHORIZED: 'Необходима авторизация',
   BAD_ROUTER: 'Запрашиваемый ресурс не найден',
   RATE_LIMIT: 'Превышено количество запросов с одного ip адреса',
+  EMAIL_IS_BUSY: 'Email уже используется',
+  BAD_URL_IMAGE: 'Неправильный url картинки к фильму',
+  BAD_URL_TRAILER: 'Неправильный url трейлера',
+  BAD_URL_THUMBNAIL: 'Неправильный url миниатрюры',
+  BAD_VALID_EMAIL: 'Неправильный формат почты',
 };
