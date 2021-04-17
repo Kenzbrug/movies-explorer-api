@@ -1,7 +1,10 @@
 const Movie = require('../models/movie');
 const { NotFound, Forbidden, BadRequest } = require('../errors');
 const {
-  BAD_DATA, VIDEO_NOT_FOUND, FORBIDDEN_DELETE_MOVIE, BAD_ID_MOVIE,
+  BAD_DATA,
+  VIDEO_NOT_FOUND,
+  FORBIDDEN_DELETE_MOVIE,
+  BAD_ID_MOVIE,
 } = require('../config/errors');
 
 // запрос на отображение только карточек с фильмами
@@ -75,15 +78,15 @@ const createMovie = (req, res, next) => {
 
 // удаляем карточку фильма
 const deleteMovie = (req, res, next) => {
-  Movie.findById(req.params.id).select('+owner')
+  Movie.findById(req.params.id)
+    .select('+owner')
     .then((movie) => {
       if (movie === null) {
         throw new NotFound(VIDEO_NOT_FOUND);
       } else if (movie.owner.toString() !== req.user._id) {
         throw new Forbidden(FORBIDDEN_DELETE_MOVIE);
       }
-      Movie.findByIdAndDelete(movie._id)
-        .then((data) => data);
+      Movie.findByIdAndDelete(movie._id).then((data) => data);
       const newObjectMovie = {
         _id: movie._id,
         country: movie.country,
@@ -109,5 +112,7 @@ const deleteMovie = (req, res, next) => {
 };
 
 module.exports = {
-  getMovies, createMovie, deleteMovie,
+  getMovies,
+  createMovie,
+  deleteMovie,
 };
