@@ -24,11 +24,11 @@ const createMovie = (req, res, next) => {
     year,
     description,
     image,
-    trailer,
+    trailerLink,
     nameRU,
     nameEN,
     thumbnail,
-    movieId,
+    id,
   } = req.body;
   const owner = req.user._id;
   Movie.create({
@@ -39,11 +39,11 @@ const createMovie = (req, res, next) => {
     year,
     description,
     image,
-    trailer,
+    trailerLink,
     nameRU,
     nameEN,
     thumbnail,
-    movieId,
+    id,
     owner,
   })
     .then((movie) => {
@@ -58,11 +58,11 @@ const createMovie = (req, res, next) => {
         year,
         description,
         image,
-        trailer,
+        trailerLink,
         nameRU,
         nameEN,
         thumbnail,
-        movieId,
+        id,
       });
     })
     .catch((err) => {
@@ -92,11 +92,11 @@ const deleteMovie = (req, res, next) => {
         year: movie.year,
         description: movie.description,
         image: movie.image,
-        trailer: movie.trailer,
+        trailerLink: movie.trailerLink,
         nameRU: movie.nameRU,
         nameEN: movie.nameEN,
         thumbnail: movie.thumbnail,
-        movieId: movie.movieId,
+        id: movie.id,
       };
       res.send(newObjectMovie);
     })

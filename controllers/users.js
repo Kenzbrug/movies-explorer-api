@@ -31,7 +31,7 @@ const getProfile = (req, res, next) => {
 // создаем нового пользователя
 const createUser = (req, res, next) => {
   const {
-    email, password, name,
+    name, email, password,
   } = req.body;
   User.findOne({ email })
     .then((user) => {
@@ -45,7 +45,8 @@ const createUser = (req, res, next) => {
           name,
         }))
         .then(({ _id }) => {
-          res.send({ _id, email });
+          const token = jwt.sign({ _id }, JWT_SECRET, { expiresIn: JWT_TTL });
+          res.send({ _id, email, token });
         });
     })
     .catch(next);

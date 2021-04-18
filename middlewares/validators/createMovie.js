@@ -14,7 +14,7 @@ const createMovieValid = celebrate({
       }
       return helper.message('Неверно введен адрес обложки к фильму');
     }),
-    trailer: Joi.string().required().custom((value, helper) => {
+    trailerLink: Joi.string().required().custom((value, helper) => {
       if (isUrl(value)) {
         return value;
       }
@@ -28,7 +28,7 @@ const createMovieValid = celebrate({
     }),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
-    movieId: Joi.number().required().integer(),
+    id: Joi.number().required().integer(),
   }),
 });
 
