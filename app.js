@@ -1,19 +1,19 @@
-const express = require('express');
-const helmet = require('helmet');
+const express = require("express");
+const helmet = require("helmet");
 
 const app = express();
-const cors = require('cors');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
+const cors = require("cors");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
 // подключаем заданные переменные окружения
-require('dotenv').config();
+require("dotenv").config();
 
-const router = require('./routes');
-const errorHandler = require('./middlewares/errorHandler');
+const router = require("./routes");
+const errorHandler = require("./middlewares/errorHandler");
 
-const limiter = require('./config/rateLimitConfig');
-const { requestLogger, errorLogger } = require('./middlewares/logger');
-const { MONGODB_SERVER, MONGOOSE_CONFIG, PORT } = require('./config/index');
+const limiter = require("./config/rateLimitConfig");
+const { requestLogger, errorLogger } = require("./middlewares/logger");
+const { MONGODB_SERVER, MONGOOSE_CONFIG, PORT } = require("./config/index");
 
 // подключаемся к БД mongo
 mongoose.connect(MONGODB_SERVER, MONGOOSE_CONFIG);
@@ -30,11 +30,13 @@ app.use(requestLogger);
 // подключаем настройку числа запросов к любым api
 app.use(limiter);
 
-app.use('/', router);
+app.use("/", router);
 
 // подключаем логгер ошибок (после обработчиков, но до обработчика ошибок)
 app.use(errorLogger);
 
 app.use(errorHandler);
 
-app.listen(PORT);
+app.listen(PORT, () => {
+  console.log(`App listening on port ${PORT}`);
+});

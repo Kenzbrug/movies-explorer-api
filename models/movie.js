@@ -1,10 +1,6 @@
 const mongoose = require('mongoose');
 const isUrl = require('validator/lib/isURL');
-const {
-  BAD_URL_IMAGE,
-  BAD_URL_TRAILER,
-  BAD_URL_THUMBNAIL,
-} = require('../config/errors');
+const { BAD_URL_IMAGE, BAD_URL_TRAILER, BAD_URL_THUMBNAIL } = require('../config/errors');
 
 const movieSchema = mongoose.Schema({
   country: {
@@ -35,7 +31,7 @@ const movieSchema = mongoose.Schema({
       message: BAD_URL_IMAGE,
     },
   },
-  trailer: {
+  trailerLink: {
     type: String,
     required: true,
     validate: {
@@ -58,7 +54,7 @@ const movieSchema = mongoose.Schema({
     // api не будет возвращать id создателя
     select: false,
   },
-  movieId: {
+  id: {
     type: Number,
     required: true,
   },
